@@ -1,2 +1,11 @@
-# Ticket-Triage-Bot
-Ticket Triage Bot is a Python-based ITSM tool that analyzes incident details to automatically assign priority, route tickets to the correct support group, and store records for tracking and automation practice.
+## Ticket Triage Bot
+
+Python-based ITSM simulation that analyzes incident details to assign priority,
+route tickets to support groups, and store records for workflow automation practice.
+
+### Skills Demonstrated
+- Python CLI development
+- ITSM logic (priority & routing)
+- JSON persistence
+- Modular architecture
+- Input validation & testing
