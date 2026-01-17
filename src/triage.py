@@ -1,5 +1,5 @@
-from storage import save_ticket, load_tickets
-from utils import get_int_input
+from src.storage import save_ticket, load_tickets
+from src.utils import get_int_input
 from datetime import datetime
 
 def calculate_priority(impact, urgency):

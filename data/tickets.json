@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": 1,
+    "description": "VPN not connecting on laptop",
+    "impact": 2,
+    "urgency": 2,
+    "priority": "P2",
+    "group": "Network",
+    "created_at": "2026-01-17T15:31:55.200650"
+  },
+  {
+    "id": 2,
+    "description": "Password reset for email login",
+    "impact": 3,
+    "urgency": 2,
+    "priority": "P4",
+    "group": "Service Desk",
+    "created_at": "2026-01-17T15:33:05.267053"
+  },
+  {
+    "id": 3,
+    "description": "Password reset for email",
+    "impact": 2,
+    "urgency": 2,
+    "priority": "P2",
+    "group": "Service Desk",
+    "created_at": "2026-01-17T15:41:45.157252"
+  },
+  {
+    "id": 4,
+    "description": "VPN not connecting on laptop",
+    "impact": 2,
+    "urgency": 2,
+    "priority": "P2",
+    "group": "Network",
+    "created_at": "2026-01-17T15:42:44.333559"
+  }
+]
