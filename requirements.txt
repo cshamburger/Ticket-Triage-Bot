@@ -1,2 +1,3 @@
-import pytest      # → put pytest in requirements.txt
-import requests    # → put requests in requirements.txt
+fastapi
+uvicorn
+pytest
