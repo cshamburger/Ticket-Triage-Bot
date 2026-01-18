@@ -9,7 +9,8 @@ def test_create_and_get_tickets(tmp_path: Path, monkeypatch):
     # Redirect JSON storage to a temp file for this test
     db_path = tmp_path / "tickets.json"
     db_path.write_text("[]", encoding="utf-8")
-    monkeypatch.setenv("TICKET_DB_PATH", str(db_path))
+    monkeypatch.setenv("TICKET_SQLITE_PATH", str(tmp_path / "tickets.db"))
+
 
     client = TestClient(app)
 
@@ -33,7 +34,8 @@ def test_create_and_get_tickets(tmp_path: Path, monkeypatch):
 def test_filters_priority_group_keyword(tmp_path: Path, monkeypatch):
     db_path = tmp_path / "tickets.json"
     db_path.write_text("[]", encoding="utf-8")
-    monkeypatch.setenv("TICKET_DB_PATH", str(db_path))
+    monkeypatch.setenv("TICKET_SQLITE_PATH", str(tmp_path / "tickets.db"))
+
 
     client = TestClient(app)
 
@@ -63,7 +65,8 @@ def test_filters_priority_group_keyword(tmp_path: Path, monkeypatch):
 def test_export_reports(tmp_path: Path, monkeypatch):
     db_path = tmp_path / "tickets.json"
     db_path.write_text("[]", encoding="utf-8")
-    monkeypatch.setenv("TICKET_DB_PATH", str(db_path))
+    monkeypatch.setenv("TICKET_SQLITE_PATH", str(tmp_path / "tickets.db"))
+
 
     client = TestClient(app)
     client.post("/tickets", params={"description": "Outlook not syncing", "impact": 2, "urgency": 1})
