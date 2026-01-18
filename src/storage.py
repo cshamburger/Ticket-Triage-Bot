@@ -3,6 +3,9 @@ from pathlib import Path
 from typing import List, Dict, Any
 import csv
 from datetime import datetime, date
+from pathlib import Path
+from typing import List, Dict, Any
+
 
 DATA_FILE = Path("data/tickets.json")
 
@@ -55,8 +58,9 @@ def export_tickets_csv(tickets: List[Dict[str, Any]], output_path: str | None = 
     Export all tickets to a CSV file and return the output path.
     """
     if output_path is None:
-        output_path = f"reports/{_daily_filename('tickets')}"
+        output_path = f"reports/{_daily_filename('tickets', with_time=True)}"
     out = Path(output_path)
+
 
 
     fieldnames = ["id", "description", "impact", "urgency", "priority", "group", "created_at"]
@@ -77,8 +81,9 @@ def export_summary_csv(tickets: List[Dict[str, Any]], output_path: str | None = 
     Returns the output path.
     """
     if output_path is None:
-        output_path = f"reports/{_daily_filename('summary')}"
+        output_path = f"reports/{_daily_filename('summary', with_time=True)}"
     out = Path(output_path)
+
 
 
     # Counts
@@ -114,7 +119,11 @@ def export_summary_csv(tickets: List[Dict[str, Any]], output_path: str | None = 
 
     return str(out)
 
-def _daily_filename(prefix: str, ext: str = "csv") -> str:
-    today = date.today().isoformat()  # YYYY-MM-DD
-    return f"{prefix}_{today}.{ext}"
+def _daily_filename(prefix: str, ext: str = "csv", with_time: bool = True) -> str:
+    d = date.today().isoformat()  # YYYY-MM-DD
+    if with_time:
+        t = datetime.now().strftime("%H%M%S")  # 235959
+        return f"{prefix}_{d}_{t}.{ext}"
+    return f"{prefix}_{d}.{ext}"
+
 

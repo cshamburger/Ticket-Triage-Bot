@@ -8,7 +8,7 @@ from src.storage import (
     export_tickets_csv,
 )
 
-from src.utils import clear_screen
+from src.utils import clear_screen, open_file
 
 
 def print_ticket(t):
@@ -80,10 +80,17 @@ def main():
         elif choice == "6":
             summary_path = export_summary_csv(tickets)
             export_path = export_tickets_csv(tickets)
+
             print("\nCSV export complete ✅")
             print(f"Summary: {summary_path}")
             print(f"Tickets:  {export_path}")
+
+            # Auto-open on macOS (and other OSes where supported)
+            open_file(summary_path)
+            open_file(export_path)
+
             input("\nPress Enter to continue...")
+
 
         elif choice == "7":
             print("Goodbye!")
