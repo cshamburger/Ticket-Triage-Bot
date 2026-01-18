@@ -1,0 +1,20 @@
+# Python
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+.pytest_cache/
+
+# macOS (AppleDouble / Finder junk)
+.DS_Store
+._*
+**/._*
+
+# Reports / generated outputs (never ship)
+reports/
+**/reports/
+
+# Local data / DB (never ship; use Fly Volume instead)
+data/
+**/data/
+**/*.db
+**/*.sqlite*
