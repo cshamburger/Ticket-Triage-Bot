@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import List, Dict, Any
 import csv
-from datetime import datetime
+from datetime import datetime, date
 
 DATA_FILE = Path("data/tickets.json")
 
@@ -49,12 +49,15 @@ def search_by_keyword(tickets: List[Dict[str, Any]], keyword: str) -> List[Dict[
         if k in hay:
             results.append(t)
     return results
-def export_tickets_csv(tickets: List[Dict[str, Any]], output_path: str = "reports/tickets_export.csv") -> str:
+def export_tickets_csv(tickets: List[Dict[str, Any]], output_path: str | None = None) -> str:
+
     """
     Export all tickets to a CSV file and return the output path.
     """
+    if output_path is None:
+        output_path = f"reports/{_daily_filename('tickets')}"
     out = Path(output_path)
-    out.parent.mkdir(exist_ok=True)
+
 
     fieldnames = ["id", "description", "impact", "urgency", "priority", "group", "created_at"]
 
@@ -67,13 +70,16 @@ def export_tickets_csv(tickets: List[Dict[str, Any]], output_path: str = "report
     return str(out)
 
 
-def export_summary_csv(tickets: List[Dict[str, Any]], output_path: str = "reports/summary.csv") -> str:
+def export_summary_csv(tickets: List[Dict[str, Any]], output_path: str | None = None) -> str:
+
     """
     Export a summary CSV with totals, counts by priority, and counts by group.
     Returns the output path.
     """
+    if output_path is None:
+        output_path = f"reports/{_daily_filename('summary')}"
     out = Path(output_path)
-    out.parent.mkdir(exist_ok=True)
+
 
     # Counts
     total = len(tickets)
@@ -107,4 +113,8 @@ def export_summary_csv(tickets: List[Dict[str, Any]], output_path: str = "report
             writer.writerow([g, by_group[g]])
 
     return str(out)
+
+def _daily_filename(prefix: str, ext: str = "csv") -> str:
+    today = date.today().isoformat()  # YYYY-MM-DD
+    return f"{prefix}_{today}.{ext}"
 
