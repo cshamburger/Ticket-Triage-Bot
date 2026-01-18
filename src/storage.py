@@ -1,40 +1,34 @@
-import os
-import json
-from pathlib import Path
-from typing import List, Dict, Any
 import csv
 from datetime import datetime, date
 from pathlib import Path
 from typing import List, Dict, Any
 
-
-def _data_file() -> Path:
-    return Path(os.getenv("TICKET_DB_PATH", "data/tickets.json"))
+from src.db import connect, init_db
 
 
 
 def load_tickets() -> List[Dict[str, Any]]:
-    data_file = _data_file()
-
-    if not data_file.exists():
-        return []
-
-    with open(data_file, "r", encoding="utf-8") as f:
-        content = f.read().strip()
-        if not content:
-            return []
-        return json.loads(content)
+    init_db()
+    with connect() as conn:
+        rows = conn.execute('SELECT * FROM tickets ORDER BY id ASC').fetchall()
+        return [dict(r) for r in rows]
 
 
 def save_ticket(ticket: Dict[str, Any]) -> None:
-    data_file = _data_file()
-
-    tickets = load_tickets()
-    tickets.append(ticket)
-
-    data_file.parent.mkdir(exist_ok=True)
-    with open(data_file, "w", encoding="utf-8") as f:
-        json.dump(tickets, f, indent=2)
+    init_db()
+    with connect() as conn:
+        conn.execute(
+            'INSERT INTO tickets (description, impact, urgency, priority, "group", created_at) VALUES (?, ?, ?, ?, ?, ?)',
+            (
+                ticket["description"],
+                int(ticket["impact"]),
+                int(ticket["urgency"]),
+                ticket["priority"],
+                ticket["group"],
+                ticket["created_at"],
+            ),
+        )
+        conn.commit()
 
 
 
@@ -70,6 +64,7 @@ def export_tickets_csv(tickets: List[Dict[str, Any]], output_path: str | None = 
     if output_path is None:
         output_path = f"reports/{_daily_filename('tickets', with_time=True)}"
     out = Path(output_path)
+    out.parent.mkdir(exist_ok=True)
 
 
 
@@ -93,6 +88,7 @@ def export_summary_csv(tickets: List[Dict[str, Any]], output_path: str | None = 
     if output_path is None:
         output_path = f"reports/{_daily_filename('summary', with_time=True)}"
     out = Path(output_path)
+    out.parent.mkdir(exist_ok=True)
 
 
 
