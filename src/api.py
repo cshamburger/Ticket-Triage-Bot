@@ -18,6 +18,53 @@ app = FastAPI(
     version="1.0.0",
 )
 
+from fastapi.responses import HTMLResponse
+
+@app.get("/", response_class=HTMLResponse)
+def home():
+    return """
+    <html>
+        <head>
+            <title>Ticket Triage Bot</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background: #0f172a;
+                    color: #e5e7eb;
+                    padding: 40px;
+                }
+                a {
+                    color: #38dbf8
+                    text-decoration: none;
+                    font-weight: bold;
+                }
+                .card {
+                    max-width: 700px;
+                    margin: auto;
+                    background: #030617;
+                    padding: 30px;
+                    border-radius: 12px;
+                    box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+                }
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <h1>Ticket Triage Bot API</h1>
+                <p>FastAPI-powered IT ticket prioritization system.</p>
+
+                <ul>
+                    <li><a href="/docs">API Documentation</a></li>
+                    <li><a href="/tickets">View Tickets</a></li>
+                    <li><a href="/reports/export">Export CSV</a></li>
+                </ul>
+
+                <p>Status: <strong>Running</strong></p>
+            </div>
+        </body>
+    </html>
+    """
+
 
 @app.get("/")
 def root():
