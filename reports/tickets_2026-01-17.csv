@@ -1,5 +1,0 @@
-id,description,impact,urgency,priority,group,created_at
-1,VPN not connecting on laptop,2,2,P2,Network,2026-01-17T15:31:55.200650
-2,Password reset for email login,3,2,P4,Service Desk,2026-01-17T15:33:05.267053
-3,Password reset for email,2,2,P2,Service Desk,2026-01-17T15:41:45.157252
-4,VPN not connecting on laptop,2,2,P2,Network,2026-01-17T15:42:44.333559
