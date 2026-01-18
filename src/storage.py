@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 from typing import List, Dict, Any
@@ -7,13 +8,18 @@ from pathlib import Path
 from typing import List, Dict, Any
 
 
-DATA_FILE = Path("data/tickets.json")
+def _data_file() -> Path:
+    return Path(os.getenv("TICKET_DB_PATH", "data/tickets.json"))
+
 
 
 def load_tickets() -> List[Dict[str, Any]]:
-    if not DATA_FILE.exists():
+    data_file = _data_file()
+
+    if not data_file.exists():
         return []
-    with open(DATA_FILE, "r", encoding="utf-8") as f:
+
+    with open(data_file, "r", encoding="utf-8") as f:
         content = f.read().strip()
         if not content:
             return []
@@ -21,11 +27,15 @@ def load_tickets() -> List[Dict[str, Any]]:
 
 
 def save_ticket(ticket: Dict[str, Any]) -> None:
+    data_file = _data_file()
+
     tickets = load_tickets()
     tickets.append(ticket)
-    DATA_FILE.parent.mkdir(exist_ok=True)
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
+
+    data_file.parent.mkdir(exist_ok=True)
+    with open(data_file, "w", encoding="utf-8") as f:
         json.dump(tickets, f, indent=2)
+
 
 
 def filter_by_priority(tickets: List[Dict[str, Any]], priority: str) -> List[Dict[str, Any]]:
